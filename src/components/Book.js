@@ -17,7 +17,7 @@ function Book(props) {
           ></div>
           <ShelfChanger />
         </div>
-        <div className="book-title">Book title</div>
+        <div className="book-title">{props.bookToShow.title}</div>
         <div className="book-authors">Book author</div>
       </div>
     </li>

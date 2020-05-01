@@ -28,7 +28,7 @@ class BookShelf extends Component {
         <div className="bookshelf-books">
           <ol className="books-grid">
             {booksToShow.map((book) => (
-              <li key={book.id}>
+              <li key={book.title.toString()}>
                 <div className="book">
                   <div className="book-top">
                     <div
@@ -39,7 +39,7 @@ class BookShelf extends Component {
                         backgroundImage: `url(${book.imageLinks.thumbnail})`,
                       }}
                     ></div>
-                    <ShelfChanger />
+                    <ShelfChanger book={book} shelf={shelf} />
                   </div>
                   <div className="book-title">{book.title}</div>
                   <div className="book-authors">{book.authors.join(", ")}</div>

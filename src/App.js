@@ -1,10 +1,10 @@
 import React from "react";
 import * as BooksAPI from "./BooksAPI";
 import "./App.css";
-// import AddBook from "./components/AddBook";
+import AddBook from "./components/AddBook";
 import BookShelf from "./components/BookShelf";
 import Search from "./components/Search";
-import { Route } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 
 class BooksApp extends React.Component {
   state = {
@@ -24,13 +24,7 @@ class BooksApp extends React.Component {
   };
 
   handleChange = (selectedShelf, book) => {
-    BooksAPI.update(book, selectedShelf)
-      .then(() => {
-        this.setState((selectedShelf) => ({
-          shelf: selectedShelf,
-        }));
-      })
-      .then(this.updateBooksList());
+    BooksAPI.update(book, selectedShelf).then(this.updateBooksList());
   };
 
   render() {
@@ -57,18 +51,20 @@ class BooksApp extends React.Component {
             <div className="list-books-content">
               <BookShelf
                 books={books}
-                shelf={"read"}
+                shelf={"wantToRead"}
                 onSelectShelf={this.handleChange}
               />
             </div>
             <div className="list-books-content">
               <BookShelf
                 books={books}
-                shelf={"wantToRead"}
+                shelf={"read"}
                 onSelectShelf={this.handleChange}
               />
             </div>
-            {/* <AddBook /> */}
+            <Link to="/search">
+              <AddBook />
+            </Link>
           </div>
         </Route>
       </div>

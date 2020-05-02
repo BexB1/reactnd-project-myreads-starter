@@ -1,7 +1,7 @@
 import React from "react";
 import * as BooksAPI from "./BooksAPI";
 import "./App.css";
-import AddBook from "./components/AddBook";
+// import AddBook from "./components/AddBook";
 import BookShelf from "./components/BookShelf";
 import Search from "./components/Search";
 import { Route } from "react-router-dom";
@@ -9,22 +9,33 @@ import { Route } from "react-router-dom";
 class BooksApp extends React.Component {
   state = {
     books: [],
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
   };
+
   componentDidMount() {
+    this.updateBooksList();
+  }
+
+  updateBooksList = () => {
     BooksAPI.getAll().then((books) =>
       this.setState({
         books,
       })
     );
-  }
+  };
+
+  handleChange = (selectedShelf, book) => {
+    BooksAPI.update(book, selectedShelf)
+      .then(() => {
+        this.setState((selectedShelf) => ({
+          shelf: selectedShelf,
+        }));
+      })
+      .then(this.updateBooksList());
+  };
 
   render() {
+    const { books } = this.state;
+
     return (
       <div className="app">
         <Route path="/search" exact>
@@ -35,16 +46,29 @@ class BooksApp extends React.Component {
             <div className="list-books-title">
               <h1>MyReads</h1>
             </div>
+            {/* TODO: Do a .forEach to make the 3 BookShelf components */}
             <div className="list-books-content">
-              <BookShelf books={this.state.books} shelf={"currentlyReading"} />
+              <BookShelf
+                books={books}
+                shelf={"currentlyReading"}
+                onSelectShelf={this.handleChange}
+              />
             </div>
             <div className="list-books-content">
-              <BookShelf books={this.state.books} shelf={"read"} />
+              <BookShelf
+                books={books}
+                shelf={"read"}
+                onSelectShelf={this.handleChange}
+              />
             </div>
             <div className="list-books-content">
-              <BookShelf books={this.state.books} shelf={"wantToRead"} />
+              <BookShelf
+                books={books}
+                shelf={"wantToRead"}
+                onSelectShelf={this.handleChange}
+              />
             </div>
-            <AddBook />
+            {/* <AddBook /> */}
           </div>
         </Route>
       </div>

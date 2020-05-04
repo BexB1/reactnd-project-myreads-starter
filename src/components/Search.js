@@ -1,20 +1,29 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import * as BooksAPI from "../BooksAPI";
 
 class Search extends Component {
   state = {
+    booksToShow: [],
     query: "",
   };
-  updateQuery = (query) => {
-    this.setState(() => ({
-      query: query.trim(),
-    }));
+
+  performSearch = (query) => {
+    if (query.length === 0) {
+      this.setState({
+        booksToShow: [],
+      });
+    } else {
+      BooksAPI.search(query).then((results) =>
+        this.setState({
+          booksToShow: results,
+        })
+      );
+    }
   };
-  clearQuery = () => {
-    this.updateQuery("");
-  };
+
   render() {
-    const { query } = this.state;
+    const { booksToShow, query } = this.state;
 
     return (
       <div className="search-books">
@@ -26,14 +35,37 @@ class Search extends Component {
             <input
               type="text"
               placeholder="Search by title or author"
-              value={query}
-              onChange={(event) => this.updateQuery(event.target.value)}
+              onChange={(event) => this.performSearch(event.target.value)}
             />
           </div>
         </div>
         <div className="search-books-results">
-          <p>{this.state.query || "No query"}</p>
-          <ol className="books-grid"></ol>
+          <ol className="books-grid">
+            {booksToShow.length > 0
+              ? booksToShow.map((book) => (
+                  <li key={book.title.toString()}>
+                    <div className="book">
+                      <div className="book-top">
+                        {book.imageLinks && (
+                          <div
+                            className="book-cover"
+                            style={{
+                              width: 128,
+                              height: 193,
+                              backgroundImage: `url(${book.imageLinks.thumbnail})`,
+                            }}
+                          ></div>
+                        )}
+                      </div>
+                      <div className="book-title">{book.title}</div>
+                      <div className="book-authors">
+                        {book.authors && book.authors.join(", ")}
+                      </div>
+                    </div>
+                  </li>
+                ))
+              : "No results to show"}
+          </ol>
         </div>
       </div>
     );

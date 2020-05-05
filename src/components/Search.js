@@ -31,9 +31,9 @@ class Search extends Component {
 
     booksQueriedSpread.forEach((bookQueried) => {
       books.forEach((book) => {
-        if (book.id === bookQueried.id) {
-          bookQueried.shelf = book.shelf;
-        }
+        return book.id === bookQueried.id
+          ? (bookQueried.shelf = book.shelf)
+          : shelf;
       });
     });
 

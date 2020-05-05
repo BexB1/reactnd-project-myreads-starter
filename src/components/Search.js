@@ -24,12 +24,12 @@ class Search extends Component {
   };
 
   render() {
-    const { shelf } = this.state;
+    const { shelf, booksQueried } = this.state;
     const { books, onSelectShelf } = this.props;
 
-    const booksQueried = [...this.state.booksQueried];
+    const booksQueriedSpread = [...booksQueried];
 
-    booksQueried.forEach((bookQueried) => {
+    booksQueriedSpread.forEach((bookQueried) => {
       books.forEach((book) => {
         if (book.id === bookQueried.id) {
           bookQueried.shelf = book.shelf;

@@ -4,41 +4,35 @@ import * as BooksAPI from "../BooksAPI";
 
 class Search extends Component {
   state = {
-    books: [],
-    booksSearched: [],
+    booksQueried: [],
     query: "",
     shelf: "none",
-  };
-
-  componentDidMount = () => {
-    this.setState({
-      books: this.props.books,
-    });
   };
 
   performSearch = (query) => {
     if (query.length === 0) {
       this.setState({
-        booksSearched: [],
+        booksQueried: [],
       });
     } else {
       BooksAPI.search(query).then((results) =>
         this.setState({
-          booksSearched: results,
+          booksQueried: results,
         })
       );
     }
   };
 
   render() {
+    const { shelf } = this.state;
     const { books, onSelectShelf } = this.props;
 
-    const booksSearched = [...this.state.booksSearched];
+    const booksQueried = [...this.state.booksQueried];
 
-    booksSearched.forEach((qbook) => {
-      books.forEach((b) => {
-        if (b.id === qbook.id) {
-          qbook.shelf = b.shelf;
+    booksQueried.forEach((bookQueried) => {
+      books.forEach((book) => {
+        if (book.id === bookQueried.id) {
+          bookQueried.shelf = book.shelf;
         }
       });
     });
@@ -59,8 +53,8 @@ class Search extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {booksSearched.length > 0
-              ? booksSearched.map((book) => (
+            {booksQueried.length > 0
+              ? booksQueried.map((book) => (
                   <li key={book.id}>
                     <div className="book">
                       <div className="book-top">
@@ -77,7 +71,7 @@ class Search extends Component {
                         ></div>
                         <div className="book-shelf-changer">
                           <select
-                            value={book.shelf || "none"}
+                            value={book.shelf || shelf}
                             onChange={(e) =>
                               onSelectShelf(e.target.value, book)
                             }

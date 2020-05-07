@@ -1,15 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 
-export class AddBook extends Component {
-  render() {
-    return (
-      <div className="open-search">
-        <button onClick={() => this.setState({ showSearchPage: true })}>
-          Add a book
-        </button>
-      </div>
-    );
-  }
+function AddBook() {
+  return (
+    <div className="open-search">
+      <button>Add a book</button>
+    </div>
+  );
 }
 
 export default AddBook;

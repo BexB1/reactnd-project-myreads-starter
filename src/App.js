@@ -35,13 +35,12 @@ class BooksApp extends React.Component {
       <div className="app">
         <Switch>
           <Route
-            exact
             path="/search"
             render={() => (
               <Search books={books} onSelectShelf={this.handleChange} />
             )}
           />
-          <Route path="/" exact>
+          <Route path="/">
             <div className="list-books">
               <div className="list-books-title">
                 <h1>MyReads</h1>

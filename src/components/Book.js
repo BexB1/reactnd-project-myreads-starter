@@ -3,8 +3,9 @@ import React, { Component } from "react";
 class Book extends Component {
   render() {
     const { book, shelf, onSelectShelf } = this.props;
+
     return (
-      <li key={book.id}>
+      <li>
         <div className="book">
           {book.imageLinks && (
             <div className="book-top">

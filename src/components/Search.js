@@ -58,6 +58,7 @@ class Search extends Component {
               ? booksQueried.map((book) => (
                   <Book
                     book={book}
+                    key={book.id}
                     onSelectShelf={onSelectShelf}
                     shelf={shelf}
                   />

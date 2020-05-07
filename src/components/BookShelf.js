@@ -9,10 +9,8 @@ class BookShelf extends Component {
       switch (shelf) {
         case "currentlyReading":
           return "Currently Reading";
-          break;
         case "read":
           return "Read";
-          break;
         default:
           return "Want to Read";
       }
@@ -28,7 +26,12 @@ class BookShelf extends Component {
                 return b.shelf.includes(shelf);
               })
               .map((book) => (
-                <Book book={book} onSelectShelf={onSelectShelf} shelf={shelf} />
+                <Book
+                  book={book}
+                  key={book.id}
+                  onSelectShelf={onSelectShelf}
+                  shelf={shelf}
+                />
               ))}
           </ol>
         </div>
